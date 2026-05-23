@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ctrl+Hired — IT Resume & Cover Letter Services</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:       #080d1a;
+    --bg2:      #0e1528;
+    --bg3:      #151e36;
+    --cyan:     #00e5c8;
+    --cyan-dim: #00b89e;
+    --amber:    #f5a623;
+    --text:     #d8e0f0;
+    --muted:    #7a8aaa;
+    --border:   #1e2d50;
+    --card:     #0f1830;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 5%;
+    background: rgba(8,13,26,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--amber); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  .nav-cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: var(--cyan);
+    color: var(--bg);
+    padding: 0.55rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--cyan-dim); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 9rem 5% 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,200,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,200,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 20%, transparent 80%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,229,200,0.12) 0%, transparent 70%);
+    top: 50%; left: 55%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  .hero-content { max-width: 720px; position: relative; z-index: 1; }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--cyan);
+  }
+
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    font-weight: 600;
+    line-height: 1.12;
+    color: #fff;
+    margin-bottom: 1.6rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--cyan);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 540px;
+    margin-bottom: 2.4rem;
+    line-height: 1.8;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    background: var(--cyan);
+    color: var(--bg);
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-primary:hover { background: var(--cyan-dim); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,200,0.25); }
+
+  .btn-ghost {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    background: transparent;
+    color: var(--text);
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* Terminal window */
+  .hero-terminal {
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(420px, 40vw);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    display: none;
+  }
+  @media(min-width: 1100px) { .hero-terminal { display: block; } }
+
+  .terminal-bar {
+    background: var(--bg3);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28ca41; }
+  .terminal-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .terminal-body {
+    padding: 1.2rem 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+    min-height: 220px;
+  }
+  .t-prompt { color: var(--cyan); }
+  .t-cmd    { color: #fff; }
+  .t-out    { color: var(--muted); }
+  .t-success{ color: #28ca41; }
+  .t-amber  { color: var(--amber); }
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--cyan);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── STATS BAND ── */
+  .stats {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2.4rem 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cyan);
+    display: block;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 6rem 5%; position: relative; z-index: 1; }
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .section-sub { color: var(--muted); max-width: 520px; font-size: 1rem; margin-bottom: 3.5rem; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--bg); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { border-color: rgba(0,229,200,0.35); transform: translateY(-4px); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .service-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+  .service-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; }
+  .service-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cyan);
+  }
+  .service-price span { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
+
+  .badge-popular {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: var(--amber);
+    color: var(--bg);
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #process { background: var(--bg2); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    counter-reset: steps;
+  }
+  .step {
+    padding: 1.8rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+    counter-increment: steps;
+    background: var(--card);
+  }
+  .step::before {
+    content: "0" counter(steps);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .step h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .step p { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── WHY ME ── */
+  #why { background: var(--bg); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media(max-width: 768px) { .why-grid { grid-template-columns: 1fr; } }
+
+  .why-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.8; }
+
+  .why-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .why-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .why-list li::before {
+    content: '▸';
+    color: var(--cyan);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    font-size: 0.85rem;
+  }
+
+  .cred-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  .cred-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cred-item:last-child { border-bottom: none; }
+  .cred-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cred-label { font-size: 0.95rem; font-weight: 500; color: #fff; }
+  .cred-sub   { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--bg2); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .pricing-card.featured {
+    border-color: var(--cyan);
+    background: linear-gradient(145deg, #0d1f3a 0%, #0f1830 100%);
+    box-shadow: 0 0 40px rgba(0,229,200,0.1);
+  }
+
+  .pricing-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .featured .pricing-name { color: var(--cyan); }
+
+  .pricing-amount {
+    font-family: 'Lora', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    line-height: 1;
+  }
+  .pricing-amount sup { font-size: 1.2rem; vertical-align: super; }
+  .pricing-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.6rem; }
+
+  .pricing-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .pricing-features li {
+    font-size: 0.88rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .pricing-features li::before { content: '✓'; color: var(--cyan); font-weight: 700; }
+
+  .btn-plan {
+    display: block;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .btn-plan-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-plan-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+  .btn-plan-solid {
+    background: var(--cyan);
+    color: var(--bg);
+  }
+  .btn-plan-solid:hover { background: var(--cyan-dim); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); }
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  @media(max-width: 768px) { .contact-wrap { grid-template-columns: 1fr; } }
+
+  .contact-info p { color: var(--muted); margin-bottom: 2rem; line-height: 1.8; }
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .contact-detail .icon { color: var(--cyan); font-size: 1rem; width: 20px; text-align: center; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--cyan); }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-group select option { background: var(--bg2); }
+
+  .btn-submit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    background: var(--cyan);
+    color: var(--bg);
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+    align-self: flex-start;
+  }
+  .btn-submit:hover { background: var(--cyan-dim); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  footer .logo { font-size: 1rem; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── MOBILE NAV ── */
+  @media(max-width: 640px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">Ctrl<span>+</span>Hired</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#why">Why Me</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Get Started →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">IT Career Services</div>
+    <h1>Your resume,<br/><em>finally</em> working<br/>as hard as you do.</h1>
+    <p class="hero-sub">ATS-optimized, human-written resumes and cover letters built specifically for IT professionals — from CompTIA to CCNA, help desk to sysadmin.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#pricing">View Packages →</a>
+      <a class="btn-ghost" href="#process">How It Works</a>
+    </div>
+  </div>
+
+  <div class="hero-terminal">
+    <div class="terminal-bar">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      <span class="terminal-title">resume_scan.sh</span>
+    </div>
+    <div class="terminal-body" id="terminal"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div>
+    <span class="stat-num" data-target="91">0</span>
+    <span class="stat-label">% ATS Pass Rate</span>
+  </div>
+  <div>
+    <span class="stat-num" data-target="48">0</span>
+    <span class="stat-label">Hour Turnaround</span>
+  </div>
+  <div>
+    <span class="stat-num" data-target="100">0</span>
+    <span class="stat-label">% IT-Focused</span>
+  </div>
+  <div>
+    <span class="stat-num" data-target="5">0</span>
+    <span class="stat-label">Years IT Experience</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <span class="section-tag">// what I offer</span>
+  <h2 class="section-title">Services built for IT job seekers</h2>
+  <p class="section-sub">Every document is written by a real IT professional who has done the work — not a career coach guessing at your stack.</p>
+
+  <div class="services-grid fade-up">
+    <div class="service-card">
+      <span class="service-icon">📄</span>
+      <h3>Resume Rewrite</h3>
+      <p>Full rewrite with ATS keyword optimization, technical accuracy, and quantified achievements tailored to your target role.</p>
+      <div class="service-price">$75 <span>/ one-time</span></div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">✉️</span>
+      <h3>Cover Letter</h3>
+      <p>A warm, personable cover letter written for a specific job posting — no templates, no filler. Sounds like you, impresses them.</p>
+      <div class="service-price">$50 <span>/ one-time</span></div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">🚀</span>
+      <h3>Resume + Cover Letter</h3>
+      <p>The complete application package. Resume rewrite plus a matching cover letter for one target position. Best value for active job seekers.</p>
+      <div class="service-price">$110 <span>/ bundle</span></div>
+      <span class="badge-popular">Popular</span>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">💼</span>
+      <h3>Full Stack Package</h3>
+      <p>Resume, cover letter, and a LinkedIn profile overhaul — keyword-rich headline, About section, and experience rewrites.</p>
+      <div class="service-price">$149 <span>/ full package</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <span class="section-tag">// how it works</span>
+  <h2 class="section-title">Simple. Fast. Done right.</h2>
+  <p class="section-sub">No lengthy intake calls. Just clear steps and a finished product in your inbox within 48 hours.</p>
+
+  <div class="steps fade-up">
+    <div class="step">
+      <h3>Order & Submit</h3>
+      <p>Fill out the contact form below with your current resume, the role you're targeting, and any notes. That's it.</p>
+    </div>
+    <div class="step">
+      <h3>Review & Strategize</h3>
+      <p>I personally review your background, identify keyword gaps, and map your experience to the job requirements.</p>
+    </div>
+    <div class="step">
+      <h3>Draft Delivered</h3>
+      <p>You receive a polished Word document within 48 hours — ATS-ready and tailored to your target role.</p>
+    </div>
+    <div class="step">
+      <h3>One Free Revision</h3>
+      <p>Not quite right? Every package includes one revision round to make sure you're 100% satisfied before you apply.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section id="why">
+  <span class="section-tag">// why ctrl+hired</span>
+  <h2 class="section-title">Written by someone<br/>who's <em>been there.</em></h2>
+
+  <div class="why-grid fade-up">
+    <div class="why-text">
+      <p>I'm Jerrett — a CompTIA A+ certified IT professional based in Washington, DC. I've worked the help desk, configured enterprise networks, and navigated the exact job market you're in right now.</p>
+      <p>Most resume writers don't know the difference between a managed switch and a Layer 3 switch. I do. That means your technical skills are represented accurately — not watered down into buzzwords a hiring manager will see through instantly.</p>
+      <ul class="why-list">
+        <li>Real IT experience — help desk, networking, and systems administration</li>
+        <li>Certified: CompTIA A+, pursuing CCNA</li>
+        <li>Every resume passes ATS scan before delivery</li>
+        <li>Familiar with government, nonprofit, and private sector IT roles</li>
+        <li>DC-based — understands the federal contractor and agency market</li>
+      </ul>
+    </div>
+
+    <div class="cred-box">
+      <div class="cred-item">
+        <span class="cred-icon">🏅</span>
+        <div>
+          <div class="cred-label">CompTIA A+ Certified</div>
+          <div class="cred-sub">DC Infrastructure Academy, 2025</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <span class="cred-icon">📡</span>
+        <div>
+          <div class="cred-label">CCNA Training — In Progress</div>
+          <div class="cred-sub">Cisco Certified Network Associate</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <span class="cred-icon">🏛️</span>
+        <div>
+          <div class="cred-label">IT Analyst — DC Gov (OCTO)</div>
+          <div class="cred-sub">91% first-contact resolution rate</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <span class="cred-icon">🛠️</span>
+        <div>
+          <div class="cred-label">Owner — CPU 202 LLC</div>
+          <div class="cred-sub">Independent IT repair & support, DC</div>
+        </div>
+      </div>
+      <div class="cred-item">
+        <span class="cred-icon">⚡</span>
+        <div>
+          <div class="cred-label">Six Sigma White Belt</div>
+          <div class="cred-sub">Aveta Business Institute, 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <span class="section-tag">// pricing</span>
+  <h2 class="section-title">Straightforward pricing.<br/>No surprises.</h2>
+  <p class="section-sub">All packages include one free revision. Turnaround is 48 hours or less.</p>
+
+  <div class="pricing-grid fade-up">
+    <div class="pricing-card">
+      <div class="pricing-name">Resume Only</div>
+      <div class="pricing-amount"><sup>$</sup>75</div>
+      <div class="pricing-desc">Perfect if you already have a cover letter</div>
+      <ul class="pricing-features">
+        <li>Full resume rewrite</li>
+        <li>ATS keyword optimization</li>
+        <li>Role-specific tailoring</li>
+        <li>Delivered in .docx format</li>
+        <li>One free revision</li>
+      </ul>
+      <a class="btn-plan btn-plan-outline" href="#contact">Order Now</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-name">⭐ Best Value Bundle</div>
+      <div class="pricing-amount"><sup>$</sup>110</div>
+      <div class="pricing-desc">Resume + Cover Letter for one target role</div>
+      <ul class="pricing-features">
+        <li>Full resume rewrite</li>
+        <li>Custom cover letter</li>
+        <li>ATS keyword optimization</li>
+        <li>Both in .docx format</li>
+        <li>One free revision each</li>
+      </ul>
+      <a class="btn-plan btn-plan-solid" href="#contact">Order Now</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Full Stack</div>
+      <div class="pricing-amount"><sup>$</sup>149</div>
+      <div class="pricing-desc">Resume + Cover Letter + LinkedIn overhaul</div>
+      <ul class="pricing-features">
+        <li>Everything in the Bundle</li>
+        <li>LinkedIn headline rewrite</li>
+        <li>About section rewrite</li>
+        <li>Experience section polish</li>
+        <li>One free revision per item</li>
+      </ul>
+      <a class="btn-plan btn-plan-outline" href="#contact">Order Now</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Cover Letter Only</div>
+      <div class="pricing-amount"><sup>$</sup>50</div>
+      <div class="pricing-desc">One custom letter for one application</div>
+      <ul class="pricing-features">
+        <li>Written for a specific role</li>
+        <li>Warm, personable tone</li>
+        <li>ATS-friendly formatting</li>
+        <li>Delivered in .docx format</li>
+        <li>One free revision</li>
+      </ul>
+      <a class="btn-plan btn-plan-outline" href="#contact">Order Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-tag">// get in touch</span>
+  <h2 class="section-title">Ready to get hired?</h2>
+
+  <div class="contact-wrap fade-up">
+    <div class="contact-info">
+      <p>Fill out the form and I'll follow up within 24 hours to confirm your order and discuss your target role. Payment is due before delivery — I accept Venmo, Cash App, and PayPal.</p>
+      <div class="contact-detail"><span class="icon">📧</span> jerrett.harrington@gmail.com</div>
+      <div class="contact-detail"><span class="icon">📞</span> 202.558.8908</div>
+      <div class="contact-detail"><span class="icon">📍</span> Washington, DC (Remote-friendly)</div>
+      <div class="contact-detail"><span class="icon">⏱️</span> 48-hour turnaround on all packages</div>
+    </div>
+
+    <div class="contact-form" id="contactForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Jane Smith"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="jane@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Package</label>
+        <select>
+          <option>Resume + Cover Letter Bundle — $110</option>
+          <option>Full Stack Package — $149</option>
+          <option>Resume Only — $75</option>
+          <option>Cover Letter Only — $50</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Target Role & Notes</label>
+        <textarea placeholder="e.g. Junior IT Administrator at Knox Systems — I have 1 year of help desk experience and am CompTIA A+ certified..."></textarea>
+      </div>
+      <button class="btn-submit" onclick="handleSubmit()">Send Request →</button>
+      <div id="form-msg" style="display:none; color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size:0.85rem; margin-top:0.5rem;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="logo" href="#">Ctrl<span>+</span>Hired</a>
+  <span>© 2026 Ctrl+Hired by Jerrett Harrington · Washington, DC</span>
+  <span style="color: var(--cyan); font-family: 'JetBrains Mono', monospace; font-size:0.75rem;">CompTIA A+ Certified</span>
+</footer>
+
+<script>
+// Terminal animation
+const lines = [
+  { delay: 0,    type: 'prompt', text: '$ run ats_check.sh resume.docx' },
+  { delay: 700,  type: 'out',    text: '→ Scanning keyword density...' },
+  { delay: 1400, type: 'out',    text: '→ Checking section headers...' },
+  { delay: 2100, type: 'out',    text: '→ Validating formatting rules...' },
+  { delay: 2800, type: 'success',text: '✓ ATS Score: 94/100' },
+  { delay: 3500, type: 'prompt', text: '$ diff old_resume.docx new_resume.docx' },
+  { delay: 4200, type: 'amber',  text: '+ Active Directory administration' },
+  { delay: 4700, type: 'amber',  text: '+ Windows 10/11 deployment' },
+  { delay: 5200, type: 'amber',  text: '+ 91% first-contact resolution' },
+  { delay: 5900, type: 'success',text: '✓ Ready to send. Good luck.' },
+];
+
+const terminal = document.getElementById('terminal');
+lines.forEach(({ delay, type, text }) => {
+  setTimeout(() => {
+    const div = document.createElement('div');
+    div.className = `t-${type}`;
+    div.textContent = text;
+    terminal.appendChild(div);
+    terminal.scrollTop = terminal.scrollHeight;
+  }, delay);
+});
+
+// Counter animation
+const counters = document.querySelectorAll('.stat-num');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    let current = 0;
+    const step = target / 50;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.round(current) + (target === 91 || target === 100 ? '%' : (target === 48 ? 'hr' : '+'));
+      if (current >= target) clearInterval(timer);
+    }, 30);
+    obs.unobserve(el);
+  });
+});
+counters.forEach(c => obs.observe(c));
+
+// Fade-up on scroll
+const fader = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => fader.observe(el));
+
+// Form handler
+function handleSubmit() {
+  const msg = document.getElementById('form-msg');
+  msg.style.display = 'block';
+  msg.textContent = '✓ Request received! I\'ll be in touch within 24 hours.';
+}
+</script>
+
+<!-- ── CHAT WIDGET ── -->
+<style>
+  #chat-btn {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 999;
+    width: 58px; height: 58px;
+    background: var(--cyan);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(0,229,200,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 1.4rem;
+  }
+  #chat-btn:hover { transform: scale(1.08); box-shadow: 0 10px 32px rgba(0,229,200,0.5); }
+
+  #chat-btn .chat-pulse {
+    position: absolute;
+    top: -3px; right: -3px;
+    width: 14px; height: 14px;
+    background: var(--amber);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.4); opacity: 0.6; }
+  }
+
+  #chat-window {
+    position: fixed;
+    bottom: 6.5rem; right: 2rem;
+    z-index: 998;
+    width: min(380px, calc(100vw - 2rem));
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    animation: slideUp 0.25s ease;
+  }
+  #chat-window.open { display: flex; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .chat-header {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .chat-avatar {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--cyan), #0077ff);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-name { font-size: 0.92rem; font-weight: 500; color: #fff; }
+  .chat-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: #28ca41;
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .chat-status::before {
+    content: ''; width: 6px; height: 6px;
+    background: #28ca41; border-radius: 50%;
+    display: inline-block;
+  }
+  .chat-close {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 1.1rem; line-height: 1;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: #fff; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-height: 340px;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .msg {
+    max-width: 85%;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    animation: msgIn 0.2s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .msg-bot {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  .msg-user {
+    background: var(--cyan);
+    color: var(--bg);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+
+  .chat-chips {
+    padding: 0 1.2rem 0.8rem;
+    display: flex; flex-wrap: wrap; gap: 0.45rem;
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .chip:hover { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
+
+  .chat-input-row {
+    display: flex; gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+  }
+  #chat-input {
+    flex: 1;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #chat-input:focus { border-color: var(--cyan); }
+  #chat-input::placeholder { color: var(--muted); }
+
+  #chat-send {
+    background: var(--cyan);
+    border: none; cursor: pointer;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  #chat-send:hover { background: var(--cyan-dim); }
+
+  .typing-indicator {
+    display: flex; gap: 4px; align-items: center;
+    padding: 0.7rem 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px; border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    width: fit-content;
+  }
+  .typing-indicator span {
+    width: 6px; height: 6px;
+    background: var(--muted);
+    border-radius: 50%;
+    animation: typing 1.2s ease-in-out infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%, 80%, 100% { transform: scale(1); opacity: 0.4; }
+    40%            { transform: scale(1.3); opacity: 1; }
+  }
+</style>
+
+<!-- Chat button -->
+<button id="chat-btn" onclick="toggleChat()" aria-label="Open chat">
+  💬
+  <span class="chat-pulse"></span>
+</button>
+
+<!-- Chat window -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-name">Ctrl+Hired Assistant</div>
+      <div class="chat-status">Online now</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chat-messages"></div>
+
+  <div class="chat-chips" id="chat-chips">
+    <button class="chip" onclick="sendChip('What services do you offer?')">Services</button>
+    <button class="chip" onclick="sendChip('How much does it cost?')">Pricing</button>
+    <button class="chip" onclick="sendChip('How does it work?')">Process</button>
+    <button class="chip" onclick="sendChip('Who writes my resume?')">About Jerrett</button>
+    <button class="chip" onclick="sendChip('How do I order?')">Order Now</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input id="chat-input" type="text" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter') sendMessage()"/>
+    <button id="chat-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+const RESPONSES = [
+  {
+    keys: ['hi','hello','hey','sup','what up','howdy','good morning','good afternoon','good evening'],
+    reply: "Hey! 👋 Welcome to Ctrl+Hired — IT resume and cover letter services built by a real IT professional.\n\nWhat can I help you with today? You can ask about services, pricing, turnaround time, or how to get started."
+  },
+  {
+    keys: ['service','offer','do you do','what do you','what can'],
+    reply: "I offer four services:\n\n📄 Resume Rewrite — $75\n✉️ Cover Letter — $50\n🚀 Resume + Cover Letter Bundle — $110 ⭐ Most Popular\n💼 Full Stack (Resume + Cover Letter + LinkedIn) — $149\n\nAll packages include one free revision and 48-hour delivery."
+  },
+  {
+    keys: ['price','cost','how much','pricing','rate','charge','fee','pay'],
+    reply: "Here's the full pricing:\n\n📄 Resume Only — $75\n✉️ Cover Letter Only — $50\n🚀 Bundle (Resume + Cover Letter) — $110\n💼 Full Stack (+ LinkedIn) — $149\n\nI accept Venmo, Cash App, and PayPal. Payment is due before delivery."
+  },
+  {
+    keys: ['bundle','package','both','resume and cover'],
+    reply: "The Resume + Cover Letter Bundle at $110 is the most popular pick — and the best value if you're actively applying. You get a full resume rewrite AND a custom cover letter for one target role, both delivered within 48 hours with one free revision each."
+  },
+  {
+    keys: ['linkedin','full stack','full package','social'],
+    reply: "The Full Stack Package ($149) covers everything:\n\n✓ Full resume rewrite\n✓ Custom cover letter\n✓ LinkedIn headline rewrite\n✓ LinkedIn About section\n✓ LinkedIn experience polish\n\nPerfect if you want your entire professional presence to be consistent and keyword-optimized."
+  },
+  {
+    keys: ['how long','turnaround','when','delivery','deadline','fast','quick'],
+    reply: "All packages are delivered within 48 hours of receiving your materials. If you need it faster, reach out via the contact form and I'll do my best to accommodate — just mention your deadline."
+  },
+  {
+    keys: ['revision','change','edit','update','not happy','redo'],
+    reply: "Every package includes one free revision round. If something isn't quite right after delivery, just send your feedback and I'll revise it — no extra charge."
+  },
+  {
+    keys: ['ats','applicant tracking','keyword','scan','algorithm','pass','filter'],
+    reply: "ATS (Applicant Tracking Systems) are software filters that screen resumes before a human ever sees them. If your resume isn't keyword-optimized for the specific role, it gets filtered out automatically.\n\nEvery resume I write is ATS-tested — with the right section headers, keyword density, and formatting to pass the scan and land in front of a real recruiter."
+  },
+  {
+    keys: ['who','jerrett','qualified','experience','background','about','real person','human','credentials','certified'],
+    reply: "Jerrett is a CompTIA A+ certified IT professional based in Washington, DC, currently pursuing his CCNA.\n\nHe's worked as an IT Support Analyst at DC's Office of the Chief Technology Officer (91% first-contact resolution rate), completed network technician training at the DC Infrastructure Academy, and runs his own IT repair business — CPU 202 LLC.\n\nHe knows your field because he works in it."
+  },
+  {
+    keys: ['how does it work','process','steps','start','begin','what happens'],
+    reply: "Here's how it works:\n\n01 — Fill out the contact form with your current resume and target role\n02 — Jerrett reviews your background and identifies keyword gaps\n03 — You receive a polished .docx in 48 hours\n04 — One free revision if anything needs adjusting\n\nThat's it. No lengthy calls, no complicated intake forms."
+  },
+  {
+    keys: ['order','get started','buy','purchase','sign up','book','ready'],
+    reply: "Ready to go? 🚀\n\nJust scroll down to the contact form at the bottom of the page — drop in your name, email, which package you want, and a note about your target role.\n\nYou can also reach Jerrett directly at:\n📧 jerrett.harrington@gmail.com\n📞 202.558.8908"
+  },
+  {
+    keys: ['payment','venmo','cashapp','cash app','paypal','zelle','pay'],
+    reply: "Payment is accepted via Venmo, Cash App, and PayPal. Payment is due before delivery — Jerrett will send you the details after confirming your order."
+  },
+  {
+    keys: ['it job','tech job','help desk','network','sysadmin','administrator','comptia','ccna','entry level','junior'],
+    reply: "Great news — this service is built specifically for IT professionals at every level, from entry-level help desk to senior sysadmin roles.\n\nJerrett understands the technical nuances of IT job descriptions and makes sure your resume reflects your real skills accurately — no generic buzzwords."
+  },
+  {
+    keys: ['government','federal','dc','washington','contractor','clearance'],
+    reply: "Jerrett is DC-based and has direct experience in the federal/government IT space from his time at OCTO (DC's Office of the Chief Technology Officer). He understands how to tailor resumes for both federal agency and private sector roles in the DC market."
+  }
+];
+
+const FALLBACK = "That's a great question! For anything specific, the best move is to reach out directly:\n\n📧 jerrett.harrington@gmail.com\n📞 202.558.8908\n\nOr scroll down and fill out the contact form — Jerrett responds within 24 hours.";
+
+let chatOpen = false;
+let greeted = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('chat-window');
+  win.classList.toggle('open', chatOpen);
+  document.querySelector('#chat-btn .chat-pulse').style.display = chatOpen ? 'none' : 'block';
+  if (chatOpen && !greeted) {
+    greeted = true;
+    setTimeout(() => addBotMessage("Hey there! 👋 I'm the Ctrl+Hired Assistant. I can answer questions about services, pricing, turnaround times, and how to get started.\n\nWhat would you like to know?"), 400);
+  }
+  if (chatOpen) document.getElementById('chat-input').focus();
+}
+
+function addBotMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+
+  // Show typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'typing-indicator';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  setTimeout(() => {
+    msgs.removeChild(typing);
+    const div = document.createElement('div');
+    div.className = 'msg msg-bot';
+    div.style.whiteSpace = 'pre-line';
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 900);
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function getReply(input) {
+  const lower = input.toLowerCase();
+  for (const { keys, reply } of RESPONSES) {
+    if (keys.some(k => lower.includes(k))) return reply;
+  }
+  return FALLBACK;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMessage(text);
+  setTimeout(() => addBotMessage(getReply(text)), 200);
+}
+
+function sendChip(text) {
+  if (!chatOpen) { chatOpen = true; document.getElementById('chat-window').classList.add('open'); greeted = true; }
+  addUserMessage(text);
+  setTimeout(() => addBotMessage(getReply(text)), 200);
+}
+</script>
+</body>
+</html>
